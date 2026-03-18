@@ -1,0 +1,87 @@
+# 🚀 gemini-cuda
+
+![C++17](https://img.shields.io/badge/C++-17-blue.svg)
+![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)
+![Platform](https://img.shields.io/badge/Platform-Linux%20%7C%20macOS-lightgrey)
+
+**Eliminating O(n³) bottlenecks at the silicon level: Automated architectural auditing for next-generation GPU-accelerated solvers.**
+
+`gemini-cuda` is a high-performance C++ utility bridging frontier LLM reasoning with GPU systems engineering. It performs deep architectural audits of NVIDIA `.cu` source code to identify synchronization errors, unoptimized memory patterns, and hardware-level bottlenecks in parallel solvers that traditional static analysis misses.
+
+---
+
+## 🎯 Strategic Value
+
+As GPU compute becomes the primary line item in AI infrastructure TCO, code efficiency at the kernel level is critical. `gemini-cuda` leverages frontier reasoning models with massive context windows to help engineering teams:
+
+* **Reduce Warp Divergence:** Identify branch-heavy logic that degrades streaming multiprocessor (SM) throughput.
+* **Eliminate Race Conditions:** Detect missing `__syncthreads()` in complex reduction algorithms across multi-file dependencies.
+* **Optimize Memory Coalescing:** Ensure global memory access patterns are aligned for maximum memory bandwidth.
+
+---
+
+## 🛠️ Technical Stack
+
+* **Core Language:** C++17 (Native Performance & Memory Management)
+* **Reasoning Engine:** Google Gemini API (Version-Agnostic, Configurable via Environment)
+* **Connectivity:** `libcurl` / OpenSSL
+* **Build System:** CMake
+
+---
+
+## 🚀 Quick Start
+
+### 1. Install Dependencies (Ubuntu/Debian)
+Ensure you have the required networking libraries to communicate with the API.
+```bash
+sudo apt-get update
+sudo apt-get install libcurl4-openssl-dev cmake g++
+```
+
+### 2. Build from Source
+```bash
+git clone [https://github.com/abokov/gemini-cuda.git](https://github.com/abokov/gemini-cuda.git)
+cd gemini-cuda
+mkdir build && cd build
+cmake ..
+make
+```
+### 3. Configure the Environment
+Copy the example environment file and add your Google AI Studio API key. 
+```bash
+cp ../.env.example ../.env
+```
+
+### 4. Run an Audit
+Run the tool against any CUDA kernel. A broken reduction sample is included for testing.
+```bash
+export GEMINI_API_KEY="your_api_key_here"
+./gemini-cuda ../samples/broken_reduction.cu
+```
+
+## 📊 Sample Output
+
+When running against a kernel with hidden synchronization flaws, the engine outputs actionable, architecturally-aware fixes:
+
+```text
+🚀 Dispatching audit to: gemini-pro-latest...
+
+--- AUDIT REPORT ---
+[CRITICAL] Race Condition Detected:
+Kernel `buggy_sum_reduction` accesses shared memory `sdata` without proper synchronization. 
+
+[ANALYSIS]:
+Threads are entering the reduction loop before all memory loads from `input` to `sdata` are complete across the block.
+
+[RESOLUTION]:
+Insert `__syncthreads()` at line 14, immediately before the `for` loop, to ensure all threads have finished writing to shared memory.
+```
+
+## 📬 Contact & License
+
+**Author:** Alexey Bokov  
+**Contact:** [alex@bokov.net](mailto:alex@bokov.net)  
+**License:** [Apache 2.0](LICENSE)
+
+
+
