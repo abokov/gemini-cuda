@@ -77,6 +77,16 @@ Threads are entering the reduction loop before all memory loads from `input` to 
 Insert `__syncthreads()` at line 14, immediately before the `for` loop, to ensure all threads have finished writing to shared memory.
 ```
 
+## 🧬 Architectural Bug Samples
+
+The `samples/` directory contains deliberately flawed CUDA kernels designed to evaluate the engine's ability to detect deep silicon-level bottlenecks. You can run `gemini-cuda` against any of these to test the LLM's diagnostic accuracy:
+
+* **`broken_reduction.cu`**: Demonstrates critical race conditions (missing `__syncthreads()`) and severe warp divergence caused by branching within a warp.
+* **`uncoalesced_transpose.cu`**: Highlights global memory transaction overhead caused by strided, uncoalesced memory writes.
+* **`bank_conflict_matmul.cu`**: Simulates n-way shared memory bank conflicts during column-wise reads in a tiled matrix multiplication kernel.
+* **`atomic_bottleneck.cu`**: Shows extreme execution serialization by forcing an entire grid of threads to queue for a single global atomic counter.
+
+
 ## 📬 Contact & License
 
 **Author:** Alexey Bokov  
