@@ -1,26 +1,28 @@
 cmake_minimum_required(VERSION 3.14)
-project(gemini-cuda VERSION 1.0 LANGUAGES CXX)
+project(llm-cuda-auditor VERSION 1.0 LANGUAGES CXX)
 
-# Require C++17 for modern memory management and filesystem features
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Find system cURL
+# --- NEW: Build Options ---
+option(USE_CLAUDE "Build with Anthropic Claude support instead of Gemini" OFF)
+
 find_package(CURL REQUIRED)
 
-# Automatically fetch nlohmann_json so users don't have to install it manually
 include(FetchContent)
-FetchContent_Declare(
-    json
-    URL https://github.com/nlohmann/json/releases/download/v3.11.2/json.tar.xz
-)
+FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.11.2/json.tar.xz)
 FetchContent_MakeAvailable(json)
 
-# Define the executable
-add_executable(gemini-cuda src/main.cpp)
+# You might want to rename the executable to be engine-agnostic
+add_executable(cuda-audit src/main.cpp)
 
-# Link libraries
-target_link_libraries(gemini-cuda PRIVATE 
-    CURL::libcurl 
-    nlohmann_json::nlohmann_json
-)
+# --- NEW: Inject the Preprocessor Directive ---
+if(USE_CLAUDE)
+    target_compile_definitions(cuda-audit PRIVATE USE_CLAUDE)
+    message(STATUS "Building with Anthropic Claude backend.")
+else()
+    message(STATUS "Building with Google Gemini backend.")
+endif()
+
+target_link_libraries(cuda-audit PRIVATE CURL::libcurl nlohmann_json::nlohmann_json)
+

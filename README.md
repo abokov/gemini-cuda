@@ -38,7 +38,11 @@ sudo apt-get update
 sudo apt-get install libcurl4-openssl-dev cmake g++
 ```
 
-### 2. Build from Source
+### 2. Build 
+We support two frameworks - Gemini and Claude, you can configure which one should be used on compite time using make variable.
+
+#### 1. Gemini
+
 ```bash
 git clone [https://github.com/abokov/gemini-cuda.git](https://github.com/abokov/gemini-cuda.git)
 cd gemini-cuda
@@ -46,10 +50,22 @@ mkdir build && cd build
 cmake ..
 make
 ```
+
+#### 2. Claude
+
+git clone [https://github.com/abokov/gemini-cuda.git](https://github.com/abokov/gemini-cuda.git)
+cd gemini-cuda
+mkdir build_claude && cd build_claude
+cmake -DUSE_CLAUDE=ON ..
+make
+
+
 ### 3. Configure the Environment
 Copy the example environment file and add your Google AI Studio API key. 
 ```bash
 cp ../.env.example ../.env
+# Edit .env to add your keys, then source it:
+export $(grep -v '^#' ../.env | xargs)
 ```
 
 ### 4. Run an Audit
