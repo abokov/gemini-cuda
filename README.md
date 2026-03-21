@@ -101,6 +101,9 @@ The `samples/` directory contains deliberately flawed CUDA kernels designed to e
 * **`uncoalesced_transpose.cu`**: Highlights global memory transaction overhead caused by strided, uncoalesced memory writes.
 * **`bank_conflict_matmul.cu`**: Simulates n-way shared memory bank conflicts during column-wise reads in a tiled matrix multiplication kernel.
 * **`atomic_bottleneck.cu`**: Shows extreme execution serialization by forcing an entire grid of threads to queue for a single global atomic counter.
+* **`naive_softmax.cu`**: Exposes severe global memory bandwidth thrashing common in unoptimized GenAI/Attention mechanisms (missing kernel fusion).
+* **`blocking_streams.cu`**: Simulates PCIe pipeline stalls caused by synchronous Host-to-Device memory transfers on the default stream.
+* **`tail_effect_imbalance.cu`**: Demonstrates SM resource waste due to extreme thread-level workload imbalance and warp divergence.
 
 
 ## 📬 Contact & License
