@@ -20,15 +20,6 @@ As GPU compute becomes the primary line item in AI infrastructure TCO, code effi
 
 ---
 
-## 🛠️ Technical Stack
-
-* **Core Language:** C++17 (Native Performance & Memory Management)
-* **Reasoning Engine:** Google Gemini API (Version-Agnostic, Configurable via Environment)
-* **Connectivity:** `libcurl` / OpenSSL
-* **Build System:** CMake
-
----
-
 ## 🚀 Quick Start
 
 ### 1. Install Dependencies (Ubuntu/Debian)
@@ -39,7 +30,7 @@ sudo apt-get install libcurl4-openssl-dev cmake g++
 ```
 
 ### 2. Build 
-We support two frameworks - Gemini and Claude, you can configure which one should be used on compite time using make variable.
+We support two frameworks - Gemini and Claude, you can configure which one should be used on compile time using a make variable.
 
 #### 1. Gemini
 
