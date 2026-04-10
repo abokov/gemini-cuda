@@ -10,7 +10,7 @@
 
 ---
 
-## 🎯 Why its important
+## 🎯 Goal
 
 As GPU compute becomes the primary line item in AI infrastructure TCO, code efficiency at the kernel level is critical. `gemini-cuda` leverages frontier reasoning models with massive context windows to help engineering teams:
 
